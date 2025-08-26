@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Color Sync</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container" id="app">
+    <h1>Color Sync</h1>
+
+    <div class="controls">
+      <input type="color" id="colorPicker" value="#ffffff" />
+      <button id="sendBtn">色を全端末に反映</button>
+      <button id="randomBtn">ランダム</button>
+      <span id="status">接続中...</span>
+    </div>
+
+    <div class="preview">
+      <p>プレビュー（他端末と同期されます）</p>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

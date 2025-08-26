@@ -1,3 +1,2 @@
-Flask
-Flask-SocketIO
-gunicorn
+fastapi==0.100.0
+uvicorn[standard]==0.22.0
