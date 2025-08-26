@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リアルタイムカラーチェンジャー</title>
+    <!-- Socket.IOクライアントライブラリをCDNから読み込みます -->
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js](https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js)"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.5s ease; /* スムーズな色の変化 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f0f0f0; /* 初期の色 */
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #color-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #color-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        #color-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>リアルタイムカラーチェンジャー</h1>
+        <button id="color-button">みんなの画面の色を変える</button>
+    </div>
+
+    <script>
+        // Renderにデプロイすると、URLは自動で決まります
+        // ここは変更する必要はありません
+        const socket = io(); 
+
+        // 接続が確立されたときのイベント
+        socket.on('connect', function() {
+            console.log('Connected to the server!');
+        });
+
+        // サーバーから'update_color'イベントを受信したときの処理
+        socket.on('update_color', function(data) {
+            console.log('Received color update:', data);
+            document.body.style.backgroundColor = data.color;
+        });
+
+        // ボタンがクリックされたときの処理
+        document.getElementById('color-button').addEventListener('click', function() {
+            // ランダムな色を生成
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            console.log('Sending color:', randomColor);
+            // サーバーに'change_color'イベントと色データを送信
+            socket.emit('change_color', { color: randomColor });
+        });
+    </script>
+</body>
+</html>
