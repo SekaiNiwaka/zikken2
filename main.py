@@ -53,16 +53,9 @@ manager = ConnectionManager()
 
 @app.get("/")
 async def root():
-    # index.html にリダイレクトする実装の代わりに静的ファイルを返す小さな案内
-    content = """
-    <html>
-      <body>
-        <h3>Open /static/index.html to view the app.</h3>
-        <p>例: https://your-render-url/static/index.html</p>
-      </body>
-    </html>
-    """
-    return HTMLResponse(content=content)
+    # static/index.html を返す
+    return FileResponse(os.path.join("static", "index.html"))
+
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
